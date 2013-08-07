@@ -54,7 +54,7 @@ class YoutubeApi {
      * @return array
      */
     public function getVideos() {
-        $idVideos = array();
+        $listeVideos = array();
         if ($this->erreur != "") {
             return ['erreur' => true, 'erreurs' => $this->erreur];
         } else {
@@ -75,20 +75,20 @@ class YoutubeApi {
                 $description = $video['content']['$t'];
                 $titre = $video['title']['$t'];
                 $indexTableau = ['titre' => $titre, 'description' => $description, 'id' => $id];
-                $idVideos[] = $indexTableau;
+                $listeVideos[] = $indexTableau;
             }
         }
-        return ['erreur' => false, 'videos' => $idVideos];
+        return ['erreur' => false, 'videos' => $listeVideos];
     }
 
     /**
      * Méthode qui permet d'avoir un object lecteur youtube flash standard rapidement.
      * 
      * @param type $id Id de la source
-     * @param type $taille Tableau contenant 'hauteur' et 'largeur' en pixels. Si le tableau est vide, une taille de 360*640 est rendue.
+     * @param type $taille Tableau contenant 'hauteur' et 'largeur' en pixels. Si aucun tableau n'est envoyé ou le tableau est vide, une taille de 360*640 est rendue.
      * @return string String contenant le code html d'un lecteur flash simple
      */
-    public static function getLecteur($id, $taille) {
+    public static function getLecteur($id, $taille = array()) {
         $largeur = 640;
         $hauteur = 360;
         if (isset($taille['largeur']) && $taille['hauteur']) {
